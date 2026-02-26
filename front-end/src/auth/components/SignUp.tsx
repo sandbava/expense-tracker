@@ -1,4 +1,3 @@
-import type {User} from "../../App.tsx";
 import {useForm} from "react-hook-form";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -15,11 +14,8 @@ const schema = z.object({
 
 type SignUpFormData = z.infer<typeof schema>;
 
-interface Props {
-    setUser: (user: User) => void;
-}
 
-const SignUp = ({setUser}: Props) => {
+const SignUp = () => {
     const {
         register,
         handleSubmit,

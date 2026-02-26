@@ -11,14 +11,14 @@ export interface User {
 function App() {
     const [user, setUser] = useState<User | null>(null);
 
-    if (!user) return <Auth setUser={setUser}/>;
+    if (!user) return <Auth/>;
 
     return <>
         <p>
             Logged as {user?.username} - {user?.email}.
             (<a className="link-secondary" href="#" onClick={() => setUser(null)}>
-                Logout
-            </a>)
+            Logout
+        </a>)
         </p>
         <ExpenseTracker/>
     </>;

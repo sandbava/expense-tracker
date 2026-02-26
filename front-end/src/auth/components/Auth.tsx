@@ -1,13 +1,8 @@
 import {useState} from "react";
 import SignIn from "./SignIn.tsx";
 import SignUp from "./SignUp.tsx";
-import type {User} from "../../App.tsx";
 
-interface Props {
-    setUser: (user:User) => void;
-}
-
-const Auth = ({setUser}: Props) => {
+const Auth = () => {
     const [isSignIn, setIsSignIn] = useState(true);
 
     return <div>
@@ -25,7 +20,7 @@ const Auth = ({setUser}: Props) => {
             </button>
         </div>
         <div className="mt-5">
-            {isSignIn ? <SignIn setUser={setUser}/> : <SignUp setUser={setUser}/>}
+            {isSignIn ? <SignIn /> : <SignUp />}
         </div>
     </div>;
 }
