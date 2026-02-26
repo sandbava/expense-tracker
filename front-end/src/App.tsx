@@ -14,9 +14,8 @@ function App() {
     if (!user) return <Auth setUser={setUser}/>;
 
     return <>
-
         <p>
-            Logged as {user?.username}.
+            Logged as {user?.username} - {user?.email}.
             (<a className="link-secondary" href="#" onClick={() => setUser(null)}>
                 Logout
             </a>)
