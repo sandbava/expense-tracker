@@ -10,7 +10,7 @@ security:
         users_in_memory:
             memory:
                 users:
-                    johndoe: { password: "$2y$13$bj5SwXWBAnQ4C1IKnFViJOCZrHccFDQ3/TvptSy.1HWb9HlO35ijG", roles: ['ROLE_USER'] }
+                    johndoe@exemple.com: { password: "$2y$13$r1b3NX.xFnGAE8UM/dlnFebZS5QPALLbW5jgy4mM2Sb8LtE2uXx6W", roles: ['ROLE_USER'] }
 
     firewalls:
         dev:
