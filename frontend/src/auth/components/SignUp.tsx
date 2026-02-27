@@ -1,6 +1,7 @@
 import {useForm} from "react-hook-form";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
+import apiClient from "../../services/api-client.ts";
 
 const schema = z.object({
     username: z.string().min(3),
@@ -14,6 +15,17 @@ const schema = z.object({
 
 type SignUpFormData = z.infer<typeof schema>;
 
+const createUser = (data: SignUpFormData) => {
+    apiClient.post('/register', {
+            email: data.email,
+            roles: ['ROLE_USER'],
+            password: data.password
+        }
+    )
+    .then(response => {
+        console.log(response.data);
+    })
+}
 
 const SignUp = () => {
     const {
@@ -26,7 +38,7 @@ const SignUp = () => {
     return <>
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit(data => {
-            console.log(data);
+            createUser(data);
             reset();
         })}
               className="mt-5">

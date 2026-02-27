@@ -25,7 +25,6 @@ const SignIn = ({setJwt}: Props) => {
     const getJwt = (data: SignInFormData) => {
         apiClient.post('/login_check', {username:data.email, password: data.password})
                  .then(response => {
-                    console.log(response.data);
                     if(response.data.token) {
                         setJwt(response.data.token);
                         localStorage.setItem('jwt', response.data.token);
