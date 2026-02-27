@@ -11,14 +11,21 @@ function App() {
     const [user, setUser] = useState<User | null>(null);
     const [jwt, setJwt] = useState<string | null>(null);
 
+    const logout = () => {
+        setUser(null);
+        setJwt(null);
+        localStorage.removeItem('jwt');
+    }
+
     if(!jwt) {
-        const jwt = localStorage.getItem('jwt');
-        if(jwt) {
-            setJwt(jwt);
+        const localStorageJWT = localStorage.getItem('jwt');
+        if(localStorageJWT) {
+            setJwt(localStorageJWT);
         }
     }
 
     useEffect(() => {
+        if(!jwt) return;
         apiClient.get('/me', {headers: {Authorization : "Bearer " + jwt}})
                  .then(response => setUser({username: response.data.user}));
     }, [jwt])
@@ -28,7 +35,7 @@ function App() {
     return <>
         <p>
             Logged as {user?.username}.
-            (<a className="link-secondary" href="#" onClick={() => setUser(null)}>
+            (<a className="link-secondary" href="#" onClick={logout}>
             Logout
         </a>)
         </p>
