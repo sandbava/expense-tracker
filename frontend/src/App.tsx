@@ -4,7 +4,7 @@ import Auth from "./auth/components/Auth.tsx";
 import apiClient from "./services/api-client.ts";
 
 export interface User {
-    username: string;
+    email: string;
 }
 
 function App() {
@@ -27,18 +27,13 @@ function App() {
     useEffect(() => {
         if(!jwt) return;
         apiClient.get('/me', {headers: {Authorization : "Bearer " + jwt}})
-                 .then(response => setUser({username: response.data.user}));
+                 .then(response => setUser({email: response.data.user}));
     }, [jwt])
 
     if (!user) return <Auth setJwt={setJwt}/>;
 
     return <>
-        <p>
-            Logged as {user?.username}.
-            (<a className="link-secondary" href="#" onClick={logout}>
-            Logout
-        </a>)
-        </p>
+        <p>Logged as {user?.email}. (<a className="link-secondary" href="#" onClick={logout}>Logout</a>)</p>
         <ExpenseTracker/>
     </>;
 }

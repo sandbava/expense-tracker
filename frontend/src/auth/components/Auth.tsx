@@ -11,20 +11,20 @@ const Auth = ({setJwt}: Props) => {
 
     return <div>
         <h1>Authentication</h1>
-        <div className="mt-5">
+        <div className="mx-5 btn-group">
             <button onClick={() => setSignMethod("signin")}
-                    className={"btn mx-3 " + (signMethod == "signin" ? "btn-success" : "btn-outline-success")}
+                    className={"btn " + (signMethod == "signin" ? "btn-success" : "btn-outline-success")}
             >
                 Sign in
             </button>
             <button onClick={() => setSignMethod("signup")}
-                    className={"btn mx-3 " + (signMethod == "signup" ? "btn-success" : "btn-outline-success")}
+                    className={"btn " + (signMethod == "signup" ? "btn-success" : "btn-outline-success")}
             >
                 Sign up
             </button>
         </div>
         <div className="mt-5">
-            {signMethod == "signin" ? <SignIn setJwt={setJwt}/> : <SignUp />}
+            {signMethod == "signin" ? <SignIn setJwt={setJwt}/> : <SignUp/>}
         </div>
     </div>;
 }
