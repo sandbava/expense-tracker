@@ -1,11 +1,5 @@
 import {type MouseEventHandler} from "react";
-
-export interface Expense {
-    id: number;
-    description: string;
-    amount: number;
-    category: 'groceries' | 'utilities' | 'entertainment';
-}
+import type {Expense} from "../../services/expense-service.ts";
 interface Props {
     expenses: Expense[];
     onDelete: (id: number) => MouseEventHandler<HTMLButtonElement>;

@@ -1,42 +1,36 @@
 import ExpenseFilter from "./ExpenseFilter";
-import ExpenseList from "./ExpenseList";
-import {type ExpenseFormData} from "./ExpenseForm";
-import ExpenseForm from "./ExpenseForm";
+import ExpenseForm, {type ExpenseFormData} from "./ExpenseForm";
 import {useState} from "react";
-
-interface Expense {
-    id: number;
-    description: string;
-    amount: number;
-    category: 'groceries' | 'utilities' | 'entertainment';
-}
+import useExpenses from "../../hooks/useExpenses.ts";
+import ExpenseService, {type Expense} from "../../services/expense-service.ts";
+import ExpenseList from "./ExpenseList.tsx";
 
 function ExpenseTracker() {
-    const defaultExpenses: Expense[] = [
-        {id: 1, description: 'bread', amount: 2.5, category: 'groceries'},
-        {id: 2, description: 'milk', amount: 5, category: 'groceries'},
-        {id: 3, description: 'eggs', amount: 10, category: 'groceries'},
-        {id: 4, description: 'movies', amount: 15, category: 'entertainment'},
-        {id: 5, description: 'electricity', amount: 100, category: 'utilities'}
-    ];
-
-    const [expenses, setExpenses] = useState(defaultExpenses);
+    const {expenses, setExpenses, setError} = useExpenses();
     const [selectedCategory, setSelectedCategory] = useState<string>();
     const visibleExpenses = selectedCategory
         ? expenses.filter(expense => expense.category === selectedCategory)
         : expenses;
-    const addExpense = (data: ExpenseFormData) => setExpenses((expenses) =>
-        expenses.some((expense: Expense) => expense.description === data.description)
-            ? expenses
-            : [
-                ...expenses,
-                {
-                    id: expenses.length + 1,
-                    description: data.description,
-                    amount: data.amount,
-                    category: data.category,
-                } satisfies Expense,
-            ]);
+    const addExpense = (data: ExpenseFormData) => {
+        const originalExpenses = [...expenses];
+        const newExpense = {id:0, description: data.description, amount: data.amount, category: data.category};
+        setExpenses([...originalExpenses, newExpense]);
+        ExpenseService.create<Expense>(newExpense)
+            .then(response => {
+                const responseExpense = {
+                    id: response.data.id,
+                    description: response.data.description,
+                    amount: response.data.amount,
+                    category: response.data.category,
+                };
+                setExpenses([...originalExpenses, responseExpense]
+                );
+            })
+            .catch(err => {
+                setError(err.message);
+                setExpenses(originalExpenses);
+            });
+    };
 
     return (
         <div>
