@@ -1,10 +1,10 @@
 import {useForm} from "react-hook-form";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
-import apiClient from "../../services/api-client.ts";
+import type {AuthCredentials} from "./Auth.tsx";
 
 interface Props {
-    setJwt: (jwt: string) => void;
+    getJwt: (data: AuthCredentials) => void;
 }
 
 const schema = z.object({
@@ -14,7 +14,7 @@ const schema = z.object({
 
 type SignInFormData = z.infer<typeof schema>;
 
-const SignIn = ({setJwt}: Props) => {
+const SignIn = ({getJwt}: Props) => {
     const {
         register,
         handleSubmit,
@@ -22,21 +22,12 @@ const SignIn = ({setJwt}: Props) => {
         formState: {errors}
     } = useForm<SignInFormData>({resolver: zodResolver(schema)});
 
-    const getJwt = (data: SignInFormData) => {
-        apiClient.post('/login_check', {username:data.email, password: data.password})
-                 .then(response => {
-                    if(response.data.token) {
-                        setJwt(response.data.token);
-                        localStorage.setItem('jwt', response.data.token);
-                    } else {
-                        alert("Invalid credentials");
-                    }
-                })
-    }
-
     return <>
         <h2>Sign In</h2>
-        <form onSubmit={handleSubmit(data => { getJwt(data); reset();})}
+        <form onSubmit={handleSubmit(data => {
+            getJwt(data);
+            reset();
+        })}
               className="mt-5"
         >
             <div className="mb-3">
@@ -50,7 +41,7 @@ const SignIn = ({setJwt}: Props) => {
                 {errors.password && <p className="form-text text-danger">{errors.password.message}</p>}
             </div>
             <div className="mb-3">
-                <button type="submit" className="btn btn-primary" >
+                <button type="submit" className="btn btn-primary">
                     Sign in
                 </button>
             </div>

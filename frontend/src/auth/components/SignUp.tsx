@@ -2,6 +2,12 @@ import {useForm} from "react-hook-form";
 import {z} from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
 import apiClient from "../../services/api-client.ts";
+import {useToast} from "../../context/ToastProvider.tsx";
+import type {AuthCredentials} from "./Auth.tsx";
+
+interface Props {
+    getJwt: (data: AuthCredentials) => void;
+}
 
 const schema = z.object({
     username: z.string().min(3),
@@ -15,25 +21,28 @@ const schema = z.object({
 
 type SignUpFormData = z.infer<typeof schema>;
 
-const createUser = (data: SignUpFormData) => {
-    apiClient.post('/register', {
-            email: data.email,
-            roles: ['ROLE_USER'],
-            password: data.password
-        }
-    )
-    .then(response => {
-        console.log(response.data);
-    })
-}
+const SignUp = ({getJwt}: Props) => {
+    const {showToast} = useToast();
 
-const SignUp = () => {
     const {
         register,
         handleSubmit,
         reset,
         formState: {errors}
     } = useForm<SignUpFormData>({resolver: zodResolver(schema)});
+
+    const createUser = (data: SignUpFormData) => {
+        apiClient.post('/register', {
+                email: data.email,
+                roles: ['ROLE_USER'],
+                password: data.password
+            }
+        )
+            .then(response => {
+                getJwt({ email: data.email, password: data.password });
+                showToast(response.data.message, "success");
+            })
+    }
 
     return <>
         <h2>Sign Up</h2>

@@ -1,13 +1,39 @@
 import {useState} from "react";
 import SignIn from "./SignIn.tsx";
 import SignUp from "./SignUp.tsx";
+import {useToast} from "../../context/ToastProvider.tsx";
+import apiClient from "../../services/api-client.ts";
+import {CanceledError} from "axios";
 
 interface Props {
     setJwt: (jwt: string) => void;
 }
 
+export type AuthCredentials = { email: string; password: string };
+
 const Auth = ({setJwt}: Props) => {
+    const {showToast} = useToast();
     const [signMethod, setSignMethod] = useState("signin");
+
+    const getJwt = (data: AuthCredentials) => {
+        apiClient
+            .post('/auth', {username: data.email, password: data.password})
+            .then(response => {
+                if (response.data.token) {
+                    setJwt(response.data.token);
+                    localStorage.setItem('jwt', response.data.token);
+                    showToast('User signed in successfully!', "success");
+                } else {
+                    showToast('Invalid credentials.', 'error');
+                }
+            })
+            .catch((err) => {
+                if (err instanceof CanceledError) return;
+                if (err.response?.status === 401) {
+                    showToast('Invalid credentials.', 'error');
+                }
+            });
+    };
 
     return <div>
         <h1>Authentication</h1>
@@ -24,7 +50,11 @@ const Auth = ({setJwt}: Props) => {
             </button>
         </div>
         <div className="mt-5">
-            {signMethod == "signin" ? <SignIn setJwt={setJwt}/> : <SignUp/>}
+            {
+                signMethod == "signin"
+                    ? <SignIn getJwt={getJwt}/>
+                    : <SignUp getJwt={getJwt}/>
+            }
         </div>
     </div>;
 }
