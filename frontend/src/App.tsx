@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import Auth from "./auth/components/Auth.tsx";
 import apiClient from "./services/api-client.ts";
 import {useToast} from "./context/ToastProvider.tsx";
+import LogMessage from "./auth/components/LogMessage.tsx";
 
 export interface User {
     email: string;
@@ -14,7 +15,8 @@ function App() {
     const [user, setUser] = useState<User | null>(null);
     const [jwt, setJwt] = useState<string | null>(null);
 
-    const logout = () => {
+    const logout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
         setUser(null);
         setJwt(null);
         localStorage.removeItem('jwt');
@@ -37,7 +39,9 @@ function App() {
     if (!user) return <Auth setJwt={setJwt}/>;
 
     return <>
-        <p>Logged as {user?.email}. (<a className="link-secondary" href="#" onClick={logout}>Logout</a>)</p>
+        <div className="d-flex justify-content-center">
+            <LogMessage username={user?.email} logout={logout} />
+        </div>
         <ExpenseTracker/>
     </>;
 }

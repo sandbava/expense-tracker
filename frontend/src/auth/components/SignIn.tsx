@@ -24,11 +24,13 @@ const SignIn = ({getJwt}: Props) => {
 
     return <>
         <h2>Sign In</h2>
-        <form onSubmit={handleSubmit(data => {
-            getJwt(data);
-            reset();
-        })}
-              className="mt-5"
+        <form className="mt-5"
+              onSubmit={
+                  handleSubmit(data => {
+                      getJwt(data);
+                      reset();
+                  })
+              }
         >
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email</label>
