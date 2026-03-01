@@ -1,7 +1,7 @@
 # Expense Tracker
 
 
-The application is a simple expense tracker made as a exercise to Mosh Hamedani React beginners course adapted to an API and a Database.
+The application is a simple expense tracker made as a exercise to Mosh Hamedani React beginners course, later adapted to an API and a Database.
 
 Made ith **React** + **Symfony** with **API Platform** and **LexikJWTAuthenticationBundle**.
 
