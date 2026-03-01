@@ -1,4 +1,4 @@
-Exemple of a application React + Symfony (API Platform).
+Exemple of a application React + Symfony (API Platform + LexikJWTAuthenticationBundle).
 
 Before you start, you must 
 
