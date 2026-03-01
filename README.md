@@ -1,6 +1,11 @@
-Exemple of a application React + Symfony (API Platform + LexikJWTAuthenticationBundle).
+# Expense Tracker
 
-Before you start, you must 
+
+The application is a simple expense tracker made as a exercise to Mosh Hamedani React beginners course adapted to an API and a Database.
+
+Made ith **React** + **Symfony** with **API Platform** and **LexikJWTAuthenticationBundle**.
+
+Before you start, you must :
 
 - install Backend the dependencies ```composer install```
 - generate the JWT keys ```php bin/console lexik:jwt:generate-keypair```
