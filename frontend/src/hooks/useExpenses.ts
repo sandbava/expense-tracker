@@ -1,14 +1,13 @@
 import {useEffect, useState} from "react";
 import {CanceledError} from "axios";
-import ExpenseService, {type Expense, type ExpenseAPIResponse} from "../services/expense-service.ts";
+import {getAllExpensesFromUser, type Expense} from "../services/expense-service.ts";
 
-const useExpenses = () => {
+const useExpenses = (userId: number) => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        const {request, cancel} = ExpenseService.getAll<ExpenseAPIResponse>();
+        const {request, cancel} = getAllExpensesFromUser(userId);
         request
             .then(res => {
                 // @ts-ignore
@@ -20,7 +19,7 @@ const useExpenses = () => {
             })
 
         return () => cancel()
-    }, []);
+    }, [userId]);
 
     return {expenses, error, setExpenses, setError};
 }

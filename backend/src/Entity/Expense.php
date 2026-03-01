@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use App\Repository\ExpenseRepository;
 use App\State\ExpenseProcessor;
@@ -16,7 +17,16 @@ use Doctrine\ORM\Mapping as ORM;
     operations: [
         new GetCollection(),
         new Delete(),
-        new Post(processor: ExpenseProcessor::class)
+        new Post(processor: ExpenseProcessor::class),
+        new GetCollection(
+            uriTemplate: '/users/{id}/expenses',
+            uriVariables: [
+                'id' => new Link(
+                    fromProperty: 'expenses',
+                    fromClass: User::class
+                )
+            ]
+        )
     ]
 )]
 class Expense
@@ -38,7 +48,6 @@ class Expense
 
     #[ORM\ManyToOne(inversedBy: 'expenses')]
     #[ORM\JoinColumn(nullable: false)]
-    #[ApiProperty(readable: false)]
     private ?User $owner = null;
 
     public function getId(): ?int

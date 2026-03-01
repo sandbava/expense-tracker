@@ -20,4 +20,9 @@ export interface ExpenseAPIResponse {
     member: ExpenseApiItem[];
 }
 
-export default create('/expenses');
+const expenseService = create('/expenses');
+
+export const getAllExpensesFromUser = (userId: number) =>
+    expenseService.getAllFromEndpoint<ExpenseAPIResponse>(`/users/${userId}/expenses`);
+
+export default expenseService;

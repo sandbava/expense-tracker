@@ -1,3 +1,4 @@
+import type {AxiosRequestConfig} from "axios";
 import apiClient from "./api-client";
 
 interface Entity {
@@ -16,6 +17,15 @@ class HttpService {
         const request = apiClient.get<T[]>(this.endpoint, {
             signal:
             controller.signal
+        });
+        return {request, cancel: () => controller.abort()};
+    }
+
+    getAllFromEndpoint<T>(endpoint: string, config?: AxiosRequestConfig) {
+        const controller = new AbortController();
+        const request = apiClient.get<T[]>(endpoint, {
+            signal: controller.signal,
+            ...config,
         });
         return {request, cancel: () => controller.abort()};
     }

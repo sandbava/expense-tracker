@@ -6,10 +6,14 @@ import ExpenseService, {type Expense} from "../../services/expense-service.ts";
 import ExpenseList from "./ExpenseList.tsx";
 import {useToast} from "../../context/ToastProvider.tsx";
 
-function ExpenseTracker() {
+interface Props {
+    userId: number;
+}
+
+function ExpenseTracker({userId}: Props) {
     const {showToast} = useToast();
 
-    const {expenses, error, setExpenses, setError} = useExpenses();
+    const {expenses, error, setExpenses, setError} = useExpenses(userId);
     const [selectedCategory, setSelectedCategory] = useState<string>();
     const visibleExpenses = selectedCategory
         ? expenses.filter(expense => expense.category === selectedCategory)
@@ -17,7 +21,7 @@ function ExpenseTracker() {
 
     const addExpense = (data: ExpenseFormData) => {
         const originalExpenses = [...expenses];
-        const newExpense = {id:0, description: data.description, amount: data.amount, category: data.category};
+        const newExpense = {id: 0, description: data.description, amount: data.amount, category: data.category};
         setExpenses([...originalExpenses, newExpense]);
         ExpenseService.create<Expense>(newExpense)
             .then(response => {
@@ -58,12 +62,11 @@ function ExpenseTracker() {
     return (
         <div>
             <h1>Expense Tracker</h1>
-            {error && <p className="text-danger">{error}</p>}
+
             <ExpenseForm onSubmit={(data: ExpenseFormData) => addExpense(data)}/>
             <ExpenseFilter onSelectCategory={(category: string) => setSelectedCategory(category)}/>
-            <ExpenseList expenses={visibleExpenses}
-                         onDelete={deleteExpense}
-            />
+            {error && <p className="text-danger">{error}</p>}
+            {!error && <ExpenseList expenses={visibleExpenses} onDelete={deleteExpense}/>}
         </div>
     );
 }

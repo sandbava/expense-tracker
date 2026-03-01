@@ -61,7 +61,7 @@ function App() {
         <div className="d-flex justify-content-center">
             <LogMessage username={user?.username} logout={logout} />
         </div>
-        <ExpenseTracker />
+        <ExpenseTracker userId={user.id} />
     </>;
 }
 
