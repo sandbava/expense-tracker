@@ -28,10 +28,12 @@ final class RegisterController extends AbstractController
         $data = $request->toArray();
 
         $email = $data['email'] ?? null;
+        $username = $data['username'] ?? null;
         $password = $data['password'] ?? null;
 
         $user = new User();
         $user->setEmail($email);
+        $user->setUsername($username);
 
         $hashedPassword = $passwordHasher->hashPassword(
             $user,
@@ -46,12 +48,13 @@ final class RegisterController extends AbstractController
         return $this->json(['message' => 'User created successfully']);
     }
 
-    #[Route('/api/me', methods: ['GET'])]
+    #[Route('/api/me', name: 'app_me')]
     public function me(): Response
     {
         return $this->json([
-            'user' => $this->getUser()?->getUserIdentifier(),
-            'roles' => $this->getUser()?->getRoles(),
+            'id' => $this->getUser()?->getId(),
+            'email' => $this->getUser()?->getEmail(),
+            'username' => $this->getUser()?->getUsername(),
         ]);
     }
 }

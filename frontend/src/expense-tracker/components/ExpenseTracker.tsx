@@ -23,8 +23,7 @@ function ExpenseTracker() {
                     amount: response.data.amount,
                     category: response.data.category,
                 };
-                setExpenses([...originalExpenses, responseExpense]
-                );
+                setExpenses([...originalExpenses, responseExpense]);
             })
             .catch(err => {
                 setError(err.message);

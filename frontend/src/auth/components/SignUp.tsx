@@ -34,6 +34,7 @@ const SignUp = ({getJwt}: Props) => {
     const createUser = (data: SignUpFormData) => {
         apiClient.post('/register', {
                 email: data.email,
+                username: data.username,
                 roles: ['ROLE_USER'],
                 password: data.password
             }

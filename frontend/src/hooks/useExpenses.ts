@@ -13,7 +13,6 @@ const useExpenses = () => {
         const {request, cancel} = ExpenseService.getAll<ExpenseAPIResponse>();
         request
             .then(res => {
-                console.log(res.data);
                 // @ts-ignore
                 setExpenses(res.data.member);
                 setLoading(false);

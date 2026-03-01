@@ -6,7 +6,9 @@ import {useToast} from "./context/ToastProvider.tsx";
 import LogMessage from "./auth/components/LogMessage.tsx";
 
 export interface User {
+    id: number;
     email: string;
+    username: string;
 }
 
 function App() {
@@ -33,14 +35,26 @@ function App() {
     useEffect(() => {
         if (!jwt) return;
         apiClient.get('/me', {headers: {Authorization: "Bearer " + jwt}})
-            .then(response => setUser({email: response.data.user}));
+            .then(response => setUser({
+                    id: response.data.id,
+                    email: response.data.email,
+                    username: response.data.username,
+            }))
+            .catch(err => {
+                if(err.response.status == 401) {
+                    setUser(null);
+                    setJwt(null);
+                    localStorage.removeItem('jwt');
+                    showToast('User session expired. Please log in again.', 'error');
+                }
+            })
     }, [jwt])
 
     if (!user) return <Auth setJwt={setJwt}/>;
 
     return <>
         <div className="d-flex justify-content-center">
-            <LogMessage username={user?.email} logout={logout} />
+            <LogMessage username={user?.username} logout={logout} />
         </div>
         <ExpenseTracker />
     </>;
