@@ -1,8 +1,7 @@
-import {type MouseEventHandler} from "react";
 import type {Expense} from "../../services/expense-service.ts";
 interface Props {
     expenses: Expense[];
-    onDelete: (id: number) => MouseEventHandler<HTMLButtonElement>;
+    onDelete: (id: number) => void;
 }
 
 function capitalize(s: string) {
@@ -32,7 +31,7 @@ const ExpenseList = ({ expenses, onDelete }:Props) => {
                         <td>{formatAmount(expense.amount)}</td>
                         <td>{capitalize(expense.category)}</td>
                         <td>
-                            <button className="btn btn-outline-danger" onClick={onDelete(expense.id)}>
+                            <button className="btn btn-outline-danger" onClick={() => onDelete(expense.id)}>
                                 Delete
                             </button>
                         </td>

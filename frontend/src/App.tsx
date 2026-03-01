@@ -1,7 +1,7 @@
 import ExpenseTracker from "./expense-tracker/components/ExpenseTracker.tsx";
 import {useEffect, useState} from "react";
 import Auth from "./auth/components/Auth.tsx";
-import apiClient from "./services/api-client.ts";
+import apiClient, {setAuthToken} from "./services/api-client.ts";
 import {useToast} from "./context/ToastProvider.tsx";
 import LogMessage from "./auth/components/LogMessage.tsx";
 
@@ -21,6 +21,7 @@ function App() {
         e.preventDefault();
         setUser(null);
         setJwt(null);
+        setAuthToken(null);
         localStorage.removeItem('jwt');
         showToast('User logged out successfully!', "success");
     }
@@ -33,7 +34,11 @@ function App() {
     }
 
     useEffect(() => {
-        if (!jwt) return;
+        if (!jwt) {
+            setAuthToken(null);
+            return;
+        }
+        setAuthToken(jwt);
         apiClient.get('/me', {headers: {Authorization: "Bearer " + jwt}})
             .then(response => setUser({
                     id: response.data.id,
