@@ -1,7 +1,18 @@
-
 services:
-###> doctrine/doctrine-bundle ###
+
+  nginx-backend:
+    ports:
+      - "8080:80"
+
+  nginx-frontend:
+    ports:
+      - "3000:80"
+
   database:
     ports:
       - "5432:5432"
-###< doctrine/doctrine-bundle ###
+
+  php:
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
