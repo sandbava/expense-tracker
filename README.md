@@ -25,12 +25,14 @@ Made ith **React** + **Symfony** with **API Platform** and **LexikJWTAuthenticat
   - `DATABASE_URL`
   - `APP_SECRET`
   - `JWT_PASSPHRASE`
+  - `POSTGRES_PASSWORD`
+  - `CORS_ALLOW_ORIGIN`
 
 #### In root folder :
 
 `docker compose -f compose.yaml -f compose.prod.yaml build`
 
-`docker compose -f compose.yaml -f compose.prod.yaml up -d`
+`docker compose --env-file backend/.env.prod.local -f compose.yaml -f compose.prod.yaml up -d`
 
 #### In Backend folder :
 
