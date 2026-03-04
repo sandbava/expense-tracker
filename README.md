@@ -3,7 +3,7 @@
 
 The application is a simple expense tracker made as a exercise to Mosh Hamedani React beginners course, later adapted to an API and a Database.
 
-Made ith **React** + **Symfony** with **API Platform** and **LexikJWTAuthenticationBundle**.
+Made with **React** + **Symfony** with **API Platform**, **LexikJWTAuthenticationBundle** and **nelmio/cors-bundle**.
 
 ### Before you start, you must :
 
@@ -19,7 +19,7 @@ Made ith **React** + **Symfony** with **API Platform** and **LexikJWTAuthenticat
 ### In production :
 
 - Change the password of database in `docker.compose.yaml` file.
-- Change the `APP_ENV` variable in `.env` file for `prod`.
+- Change the `APP_ENV` variable in `.env` file for value `prod`.
 - Add the `.env.prod.local` file in `Backend` folder with the following variables :
   - `APP_DEBUG=0`
   - `DATABASE_URL`
@@ -28,11 +28,11 @@ Made ith **React** + **Symfony** with **API Platform** and **LexikJWTAuthenticat
   - `POSTGRES_PASSWORD`
   - `CORS_ALLOW_ORIGIN`
 
-#### In root folder :
+#### In Frontend folder :
 
-`docker compose -f compose.yaml -f compose.prod.yaml build`
+`npm i`
 
-`docker compose --env-file backend/.env.prod.local -f compose.yaml -f compose.prod.yaml up -d`
+`npm run build`
 
 #### In Backend folder :
 
@@ -43,3 +43,9 @@ Made ith **React** + **Symfony** with **API Platform** and **LexikJWTAuthenticat
 `docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction`
 
 `docker compose exec php php bin/console cache:clear`
+
+#### In root folder :
+
+`docker compose -f compose.yaml -f compose.prod.yaml build`
+
+`docker compose --env-file backend/.env.prod.local -f compose.yaml -f compose.prod.yaml up -d`
