@@ -28,10 +28,11 @@ const Auth = ({setJwt}: Props) => {
                 }
             })
             .catch((err) => {
+                console.log(err);
                 if (err instanceof CanceledError) return;
                 if (err.response?.status === 401) {
                     showToast('Invalid credentials.', 'error');
-                }
+                } else showToast(err.message, 'error');
             });
     };
 

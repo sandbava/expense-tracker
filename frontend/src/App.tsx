@@ -58,7 +58,7 @@ function App() {
     if (!user) return <Auth setJwt={setJwt}/>;
 
     return <>
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mb-3">
             <LogMessage username={user?.username} logout={logout} />
         </div>
         <ExpenseTracker userId={user.id} />
