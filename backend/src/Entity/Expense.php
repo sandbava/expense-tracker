@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ExpenseRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(),
         new Delete(),
         new Post(processor: ExpenseProcessor::class),
         new GetCollection(

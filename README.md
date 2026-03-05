@@ -3,7 +3,7 @@
 
 The application is a simple expense tracker made as a exercise to Mosh Hamedani React beginners course, later adapted to an API and a Database.
 
-Made with **React** + **Symfony** with **API Platform**, **LexikJWTAuthenticationBundle** and **nelmio/cors-bundle**.
+Made with **React** + **Symfony** with **API Platform**, **LexikJWTAuthenticationBundle** and **NelmioCorsBundle**.
 
 ### Before you start, you must :
 

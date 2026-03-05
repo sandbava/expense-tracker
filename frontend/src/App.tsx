@@ -39,7 +39,7 @@ function App() {
             return;
         }
         setAuthToken(jwt);
-        apiClient.get('/me', {headers: {Authorization: "Bearer " + jwt}})
+        apiClient.get('/me')
             .then(response => setUser({
                     id: response.data.id,
                     email: response.data.email,
